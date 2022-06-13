@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hungry/views/screens/page_switcher.dart';
+import 'package:hungry/views/screens/clientes/cliente_page_switcher.dart' as cliente_page_switcher;
+import 'package:hungry/views/screens/empleados/empleado_page_switcher.dart' as empleado_page_switcher;
 import 'package:hungry/views/utils/AppColor.dart';
 import 'package:hungry/views/widgets/custom_text_field.dart';
 import 'package:hungry/views/widgets/custom_alert_dialog.dart';
@@ -155,15 +156,17 @@ class _LoginModalState extends State<LoginModal> {
                     getClienteSingIn(correo.controller.text,passwd.controller.text).then((value){
                       if(value != "null"){
                         //Ingresa como cliente
-                        /*
                         Navigator.of(context).pop();
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PageSwitcher()));
-                        */
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => cliente_page_switcher.PageSwitcher()));
                       }
                       else{
                         getEmpleadoSingIn(correo.controller.text,passwd.controller.text).then((value){
                           if(value != "null"){
                             //Ingresa como empleado
+                            
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => empleado_page_switcher.PageSwitcher()));
+                            
                           }
                           else{
                             //Usuario no registrado
