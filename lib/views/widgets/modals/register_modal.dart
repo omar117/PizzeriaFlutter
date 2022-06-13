@@ -166,11 +166,61 @@ class _RegisterModalState extends State<RegisterModal> {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-
-                    /*
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PageSwitcher()));
-                    */
+                    if(
+                      nombre.controller.text != "" &&
+                      apepat.controller.text != "" &&
+                      apemat.controller.text != "" &&
+                      cumple.controller.text != "" &&
+                      telefono.controller.text != "" &&
+                      correo.controller.text != "" &&
+                      contra.controller.text != "" &&
+                      calle.controller.text != "" &&
+                      num_ext.controller.text != "" &&
+                      num_int.controller.text != "" &&
+                      colonia.controller.text != "" &&
+                      estado.controller.text != "" &&
+                      cp.controller.text != "")
+                    {
+                      
+                      getFindCorreo(correo.controller.text).then((value){
+                        if(value == "null"){
+                            //Error en la comunicacion en la base de datos
+                            alertDialog("Error","Error de la red");
+                          }
+                          else if(value == "true"){
+                            //Correo Existente
+                            alertDialog("Correro Existente","El correro que intentas usar ya existe");
+                          }
+                          else if(value == "false"){
+                            //El correo no existe
+                             postClienteSingUp(
+                              nombre.controller.text,
+                              apepat.controller.text,
+                              apemat.controller.text,
+                              cumple.controller.text,
+                              telefono.controller.text,
+                              correo.controller.text,
+                              contra.controller.text,
+                              calle.controller.text,
+                              num_ext.controller.text,
+                              num_int.controller.text,
+                              colonia.controller.text,
+                              estado.controller.text,
+                              cp.controller.text).then((value)
+                            {
+                              if(value != "null"){
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PageSwitcher()));
+                              }
+                              else{
+                                alertDialog("Error","Usuario no registrado intente mas tarde.");
+                              }
+                            }); 
+                          }
+                      });
+                    }else{
+                          alertDialog("Error","Favor de completar todos los datos");
+                    }
                   },
                   child: Text('Registrar', style: TextStyle(color: AppColor.secondary, fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'inter')),
                   style: ElevatedButton.styleFrom(
@@ -182,66 +232,16 @@ class _RegisterModalState extends State<RegisterModal> {
               // Login textbutton
               TextButton(
                 onPressed: () {
-                  getFindCorreo(correo.controller.text).then((value){
-                    if(value == "null"){
-                        //Error en la comunicacion en la base de datos
-                        alertDialog("Error","Error de la red");
-                      }
-                      else if(value == "true"){
-                        //Correo Existente
-                        alertDialog("Correro Existente","El correro que intentas usar ya existe");
-                      }
-                      else if(value == "false"){
-                        //El correo no existe
-                        if(
-                            nombre.controller.text != "" &&
-                            apepat.controller.text != "" &&
-                            apemat.controller.text != "" &&
-                            cumple.controller.text != "" &&
-                            telefono.controller.text != "" &&
-                            correo.controller.text != "" &&
-                            contra.controller.text != "" &&
-                            calle.controller.text != "" &&
-                            num_ext.controller.text != "" &&
-                            num_int.controller.text != "" &&
-                            colonia.controller.text != "" &&
-                            estado.controller.text != "" &&
-                            cp.controller.text != ""){
-                          postClienteSingUp(
-                                            nombre.controller.text,
-                                            apepat.controller.text,
-                                            apemat.controller.text,
-                                            cumple.controller.text,
-                                            telefono.controller.text,
-                                            correo.controller.text,
-                                            contra.controller.text,
-                                            calle.controller.text,
-                                            num_ext.controller.text,
-                                            num_int.controller.text,
-                                            colonia.controller.text,
-                                            estado.controller.text,
-                                            cp.controller.text).then((value){
-                            if(value != "null"){
-                              Navigator.of(context).pop();
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return LoginModal();
-                                },
-                              );
-                            }
-                            else{
-                              alertDialog("Error","Usuario no registrado intente mas tarde.");
-                            }
-                          }); 
-                        }else{
-                          alertDialog("Error","Favor de completar todos los datos");
-                        }
-                      }
-                  });
+                    Navigator.of(context).pop();
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return LoginModal();
+                      },
+                    );
                 },
                 style: TextButton.styleFrom(
                   primary: Colors.white,
